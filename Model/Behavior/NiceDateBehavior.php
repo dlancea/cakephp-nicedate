@@ -1,5 +1,7 @@
 <?php
 
+App::uses('Validation', 'Utility');
+
 class NiceDateBehavior extends ModelBehavior {
 
 	/**
@@ -32,7 +34,6 @@ class NiceDateBehavior extends ModelBehavior {
 				return true;
 
 			return Validation::datetime( $value, $format, $regex );
-
 		}
 		if( isset($check['date']) && !isset( $check['time'] ) ){
 
@@ -87,6 +88,21 @@ class NiceDateBehavior extends ModelBehavior {
 
 	}
 
+	/**
+	 * Validation rule for the custom form element type "duration". Each date must be checked separate (to show different error messages)
+	 */
+	public function duration_hours(Model $model, $check){
+
+		// $check array is passed using the form field name as the key
+		// have to extract the value to make the function generic
+		list($key, $check) = each($check);
+
+		if( !isset($check['duration_date']) ){
+			throw new CakeException('Invalid input format for duration hours type');
+		}
+
+		return $this->datetime( $model, array('a' => $check['duration_date']), 'mdy' ) && Validation::numeric( $check['hours'] );
+	}
 
 	/**
 	 * Validation rule, overwriting CakePHP's date validation
@@ -116,7 +132,13 @@ class NiceDateBehavior extends ModelBehavior {
 			$result4 = Validation::notEmpty( $check['end']['time'] );
 
 			return $result1 && $result2 && $result3 && $result4;
+		}
 
+		if(is_array($check) && isset($check['duration_date'])){
+			$result1 = Validation::notEmpty( $check['duration_date']['date'] );
+			$result2 = Validation::notEmpty( $check['hours'] );
+
+			return $result1 && $result2;
 		}
 
 		// Check for any other array

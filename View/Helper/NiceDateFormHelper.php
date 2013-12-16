@@ -45,6 +45,36 @@ class NiceDateFormHelper extends FormHelper {
 	}
 	
 	/**
+	 * Creates a "duration" input, which is essentialy two DateTimes smooshed together.
+	 * 
+	 * Requires some javascript in form.js to auto-update dates.
+	 * 
+	 * @param string $fieldName
+	 * @param array $attributes Standard input attributes. (Currently only supports 'empty')
+	 * 
+	 * @return string Generated duration input HTML 
+	 */
+	public function duration_hours($fieldName, $attributes){
+
+		if( $attributes['empty'] ){
+			$default_start = null;
+			$default_hours = null;
+			$empty = true;
+		}else{
+			$default_start = 'today';
+			$default_hours = '1';
+			$empty = false;
+		}
+
+		$output = $this->dateTime( $fieldName.'.duration_date', 'm/d/Y', null, array('class' => 'start', 'default'=>$default_start, 'checkErrorField'=>$fieldName, 'error' => $error) );
+		$output .= ' ';
+		$output .= $this->number( $fieldName.'.hours', array('style' => 'width: 6em;', 'step'=>'any', 'default'=>$default_hours, 'error' => $error) );
+		$output .= ' hours';
+		
+		return $output;
+	}
+	
+	/**
 	 * Returns two text inputs, one for date, the other time. Each has a class of date and time respectively. The
 	 * classes should be used to trigger jQuery Date and Time pickers
 	 *
