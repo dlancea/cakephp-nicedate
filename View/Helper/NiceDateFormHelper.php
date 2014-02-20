@@ -41,7 +41,6 @@ class NiceDateFormHelper extends FormHelper {
 		$output .= $this->dateTime( $fieldName.'.end', 'm/d/Y', 'g:i a', array('class' => 'end', 'default'=>$default_end, 'checkErrorField'=>$fieldName, 'error' => $error) );
 		
 		return $output;
-		
 	}
 	
 	/**
@@ -97,8 +96,10 @@ class NiceDateFormHelper extends FormHelper {
 	 */
 	public function dateTime($fieldName, $dateFormat = 'm/d/Y', $timeFormat = 'g:i a', $attributes = array()) {
 
-		$this->Html->css('/nice_date/js/jquery/timepicker/timePicker.css', 'stylesheet', array('inline'=>false, 'once'=>true));
-		$this->Html->script('/nice_date/js/jquery/timepicker/jquery.timePicker.min.js', array('inline'=>false, 'once'=>true) );
+		$this->Html->css('/nice_date/js/jquery/timepicker/jquery.timepicker.css', 'stylesheet', array('inline'=>false, 'once'=>true));
+		$this->Html->script('/nice_date/js/jquery/timepicker/jquery.timepicker.min.js', array('inline'=>false, 'once'=>true) );
+
+		$this->Html->script('/nice_date/js/moment/moment.min.js', array('inline'=>false, 'once'=>true) );
 
 		$this->Html->script('/nice_date/js/nice_date.js', array('inline'=>false, 'once'=>true) );
 
