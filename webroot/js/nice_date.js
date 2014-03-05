@@ -5,13 +5,21 @@
 $(function(){
 	// Setup date and time pickers
 	$('input.date').datepicker({ dateFormat: 'm/d/yy' });
-	$('input.time').timepicker({ step: 30 });
+	if($('input.time').timepicker)
+		$('input.time').timepicker({ step: 30 });
 
 	// Setup duration types. A change to the start time changes the end time to match.
-	$('div.input.duration').each(function(id, div){
-		$('input.date.start', div).change(function(){
-			$('input.date.end', div)[0].value = this.value;
+	$('.duration').each(function(id, div){
+		$( 'input.date.start', div ).datepicker("option", "onClose", function( selectedDate ) {
+			$( 'input.date.end', div ).datepicker( "option", "minDate", selectedDate );
 		});
+		$( 'input.date.end', div ).datepicker("option", "onClose", function( selectedDate ) {
+			$( 'input.date.start', div ).datepicker( "option", "maxDate", selectedDate );
+		});
+
+		// $('input.date.start', div).change(function(){
+		// 	$('input.date.end', div)[0].value = this.value;
+		// });
 		$('input.time.start', div).change(function(){
 
 			// Use moment.js to convert time
