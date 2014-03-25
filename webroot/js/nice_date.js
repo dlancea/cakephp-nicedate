@@ -5,6 +5,7 @@
 $(function(){
 	// Setup date and time pickers
 	$('input.date').datepicker({ dateFormat: 'm/d/yy' });
+
 	if($('input.time').timepicker)
 		$('input.time').timepicker({ step: 30 });
 
@@ -13,13 +14,11 @@ $(function(){
 		$( 'input.date.start', div ).datepicker("option", "onClose", function( selectedDate ) {
 			$( 'input.date.end', div ).datepicker( "option", "minDate", selectedDate );
 		});
+
 		$( 'input.date.end', div ).datepicker("option", "onClose", function( selectedDate ) {
 			$( 'input.date.start', div ).datepicker( "option", "maxDate", selectedDate );
 		});
 
-		// $('input.date.start', div).change(function(){
-		// 	$('input.date.end', div)[0].value = this.value;
-		// });
 		$('input.time.start', div).change(function(){
 
 			// Use moment.js to convert time
